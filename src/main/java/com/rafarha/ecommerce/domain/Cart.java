@@ -3,25 +3,40 @@ package com.rafarha.ecommerce.domain;
 import com.rafarha.ecommerce.constants.EnumStatusCart;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-public class Cart {
+@Table(name = "TB_CART")
+public class Cart implements Serializable {
 
-    private Timestamp dhCartCreated;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "TB_CART_DETAIL_CART", joinColumns = {
+		    @JoinColumn(name = "cart_id", referencedColumnName = "id") }, inverseJoinColumns = {
+		    @JoinColumn(name = "cart_detail_id", referencedColumnName = "id") })
+    private List<CartDetail> cartDetailList;
+
+    private LocalDateTime dhCartCreated;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "seq_cart", allocationSize = 1)
     private Long id;
 
-    @ManyToOne
-    private Product product;
-
-    private Long productQuantity;
-
+    @Enumerated(EnumType.STRING)
     private EnumStatusCart statusCart;
 
-    public Timestamp getDhCartCreated() {
+    public Cart() {
+	dhCartCreated = LocalDateTime.now();
+	statusCart = EnumStatusCart.IN_PROGRESS;
+    }
+
+    public List<CartDetail> getCartDetailList() {
+	return cartDetailList;
+    }
+
+    public LocalDateTime getDhCartCreated() {
 	return dhCartCreated;
     }
 
@@ -29,32 +44,20 @@ public class Cart {
 	return id;
     }
 
-    public Product getProduct() {
-	return product;
-    }
-
-    public Long getProductQuantity() {
-	return productQuantity;
-    }
-
     public EnumStatusCart getStatusCart() {
 	return statusCart;
     }
 
-    public void setDhCartCreated(final Timestamp pDhCartCreated) {
+    public void setCartDetailList(final List<CartDetail> pCartDetailList) {
+	cartDetailList = pCartDetailList;
+    }
+
+    public void setDhCartCreated(final LocalDateTime pDhCartCreated) {
 	dhCartCreated = pDhCartCreated;
     }
 
     public void setId(final Long pId) {
 	id = pId;
-    }
-
-    public void setProduct(final Product pProduct) {
-	product = pProduct;
-    }
-
-    public void setProductQuantity(final Long pProductQuantity) {
-	productQuantity = pProductQuantity;
     }
 
     public void setStatusCart(final EnumStatusCart pStatusCart) {

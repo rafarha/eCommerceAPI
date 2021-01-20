@@ -1,1 +1,1 @@
-insert into product values(1,'CellPhone', 'Iphone5', 5000);
+--insert into product values(1,'Smartphone 64GB, Tela 6.5, Camera AutoFoco', 'Iphone X MAX', 5000, 100);

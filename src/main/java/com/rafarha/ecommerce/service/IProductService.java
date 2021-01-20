@@ -13,4 +13,9 @@ public interface IProductService {
     List<Product> listAllProducts();
 
     Product searchProductById(Long pId);
-}
+
+    public Product updateProduct(Long pId, Product pProduct);
+
+    public Product searchProductByName(String pName);
+
+    }

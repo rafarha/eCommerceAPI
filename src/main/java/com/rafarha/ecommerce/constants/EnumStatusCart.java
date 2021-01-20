@@ -5,17 +5,17 @@ public enum EnumStatusCart {
     SUCSSES_CONCLUDE("Purchase was conclude with sucsses"),
     EXPIRED_TIME("Purchase was not conclude, cart duration expired");
 
-    private String description;
+    private java.lang.String description;
 
-    EnumStatusCart(String pDescription) {
+    EnumStatusCart(java.lang.String pDescription) {
 	description = pDescription;
     }
 
-    public String getDescription() {
+    public java.lang.String getDescription() {
 	return description;
     }
 
-    public void setDescription(final String pDescription) {
+    public void setDescription(final java.lang.String pDescription) {
 	description = pDescription;
     }
 }

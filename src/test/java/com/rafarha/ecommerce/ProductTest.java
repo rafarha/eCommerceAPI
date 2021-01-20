@@ -17,7 +17,7 @@ public class ProductTest {
     @Test
     void inclusaoProdutoTest() {
 	Product product = new Product();
-	product.setName("Bateria");
+	product.setProductName("Bateria");
 	product.setDescription("Bateria modelo tr44");
 	product.setId(1l);
 
