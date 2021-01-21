@@ -1,6 +1,6 @@
 package com.rafarha.ecommerce.config;
 
-import com.rafarha.ecommerce.exception.ProductQuantityUnavailableException;
+import com.rafarha.ecommerce.exception.ProductStockUnavailableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -30,8 +30,8 @@ public class ErrorHandler {
 	return errorFormDtos;
     }
 
-    @ExceptionHandler(ProductQuantityUnavailableException.class)
-    public ErrorFormDto handler(ProductQuantityUnavailableException pE) {
+    @ExceptionHandler(ProductStockUnavailableException.class)
+    public ErrorFormDto handler(ProductStockUnavailableException pE) {
 	return new ErrorFormDto(null, pE.getMessage());
     }
 }

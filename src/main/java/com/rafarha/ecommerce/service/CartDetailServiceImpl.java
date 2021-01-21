@@ -5,7 +5,7 @@ import com.rafarha.ecommerce.constants.EnumStatusCart;
 import com.rafarha.ecommerce.domain.Cart;
 import com.rafarha.ecommerce.domain.CartDetail;
 import com.rafarha.ecommerce.domain.Product;
-import com.rafarha.ecommerce.exception.ProductQuantityUnavailableException;
+import com.rafarha.ecommerce.exception.ProductStockUnavailableException;
 import com.rafarha.ecommerce.repository.ICartDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,20 +28,20 @@ public class CartDetailServiceImpl implements ICartDetailService {
 	cartDetailRepository.deleteById(pId);
     }
 
-    @Override public CartDetail insertProductInCart(CartDetail pCartDetail) throws ProductQuantityUnavailableException {
+    @Override public CartDetail insertProductInCart(CartDetail pCartDetail) throws ProductStockUnavailableException {
 
-	final Product product = productService.searchProductByName(pCartDetail.getProductAdded().getProductName());
+	final Product product = productService.searchProductByName(pCartDetail.getProduct().getProductName());
 	if (product == null) {
 	    return null;
 	}
-	if (product.getProductStock() < pCartDetail.getQtdProduct()) {
-	    throw new ProductQuantityUnavailableException(MessageBundle.bindMessage("product.quantity_unavaiable"));
+	if (product.getProductStock() < pCartDetail.getProductQuantity()) {
+	    throw new ProductStockUnavailableException(MessageBundle.bindMessage("product.quantity_unavaiable"));
 	}
 	Cart cartInprogress = cartService.findCartByStatus(EnumStatusCart.IN_PROGRESS);
 	if (cartInprogress == null) {
 	    cartInprogress = cartService.createNewCart(cartInprogress);
 	}
-	pCartDetail.setProductAdded(product);
+	pCartDetail.setProduct(product);
 	pCartDetail.setCart(cartInprogress);
 	final CartDetail cartDetail = cartDetailRepository.save(pCartDetail);
 	if (cartDetail != null) {
@@ -57,7 +57,7 @@ public class CartDetailServiceImpl implements ICartDetailService {
 	    return null;
 	}
 	CartDetail cartDetail = cartDetailOptional.get();
-	cartDetail.setQtdProduct(pCartDetail.getQtdProduct());
+	cartDetail.setProductQuantity(pCartDetail.getProductQuantity());
 	return cartDetail;
     }
 

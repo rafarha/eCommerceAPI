@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "TB_PRODUCT")
 public class Product implements Serializable {
 
     private String description;

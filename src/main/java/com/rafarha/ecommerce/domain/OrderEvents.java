@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "TB_ODER_EVENTS")
 public class OrderEvents {
 
     private LocalDateTime dhEvent;

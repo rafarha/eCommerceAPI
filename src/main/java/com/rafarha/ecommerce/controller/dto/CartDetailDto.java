@@ -18,10 +18,10 @@ public class CartDetailDto {
     private Long cartDetailId;
 
     public CartDetailDto(CartDetail pCartDetail) {
-	prductName = pCartDetail.getProductAdded().getProductName();
-	productQuantity = pCartDetail.getQtdProduct();
+	prductName = pCartDetail.getProduct().getProductName();
+	productQuantity = pCartDetail.getProductQuantity();
 	cartId = pCartDetail.getCart().getId();
-	productId = pCartDetail.getProductAdded().getId();
+	productId = pCartDetail.getProduct().getId();
 	cartDetailId = pCartDetail.getId();
     }
 

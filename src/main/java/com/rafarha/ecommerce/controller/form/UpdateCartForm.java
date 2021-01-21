@@ -17,8 +17,8 @@ public class UpdateCartForm {
     private EnumStatusCart statusCart;
 
     public UpdateCartForm(CartDetail pCartDetail) {
-	productId = pCartDetail.getProductAdded().getId();
-	productQuantity = pCartDetail.getQtdProduct();
+	productId = pCartDetail.getProduct().getId();
+	productQuantity = pCartDetail.getProductQuantity();
 	cartId = pCartDetail.getCart().getId();
 	cartDetailId = pCartDetail.getId();
 	statusCart = pCartDetail.getCart().getStatusCart();

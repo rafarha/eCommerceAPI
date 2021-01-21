@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class ProductQuantityUnavailableException extends Exception {
+public class ProductStockUnavailableException extends Exception {
 
-    public ProductQuantityUnavailableException(final String message) {
+    public ProductStockUnavailableException(final String message) {
 	super(message);
     }
 }

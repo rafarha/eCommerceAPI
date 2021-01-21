@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "TB_ORDER_DETAIL")
 public class OrderDetail {
 
     @Id

@@ -2,15 +2,14 @@ package com.rafarha.ecommerce.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "TB_CART_DETAIL")
 public class CartDetail implements Serializable {
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "TB_CART_DETAIL_CART", joinColumns = {
-		    @JoinColumn(name = "cart_detail_id", referencedColumnName = "id") }, inverseJoinColumns = {
-		    @JoinColumn(name = "cart_id", referencedColumnName = "id") })
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cart_id", foreignKey = @ForeignKey(name = "cart_detail_cart_fk"))
     private Cart cart;
 
     @Id
@@ -19,18 +18,20 @@ public class CartDetail implements Serializable {
     private Long id;
 
     @OneToOne
-    private Product productAdded;
+    private Product product;
 
-    private Integer qtdProduct;
+    private Integer productQuantity;
 
-    public CartDetail(Product pProduct, Integer pQtdProduct) {
-	this.productAdded = pProduct;
-	this.qtdProduct = pQtdProduct;
+    private BigDecimal productPrice;
+
+    public CartDetail(Product pProduct, Integer pProductQuantity) {
+	this.product = pProduct;
+	this.productQuantity = pProductQuantity;
     }
 
-    public CartDetail(Product pProduct, Integer pQtdProduct, Long pCartDetailId, Cart pCart) {
-	this.productAdded = pProduct;
-	this.qtdProduct = pQtdProduct;
+    public CartDetail(Product pProduct, Integer pProductQuantity, Long pCartDetailId, Cart pCart) {
+	this.product = pProduct;
+	this.productQuantity = pProductQuantity;
 	this.id = pCartDetailId;
 	this.cart = pCart;
     }
@@ -46,12 +47,12 @@ public class CartDetail implements Serializable {
 	return id;
     }
 
-    public Product getProductAdded() {
-	return productAdded;
+    public Product getProduct() {
+	return product;
     }
 
-    public Integer getQtdProduct() {
-	return qtdProduct;
+    public Integer getProductQuantity() {
+	return productQuantity;
     }
 
     public void setCart(final Cart pCart) {
@@ -62,11 +63,19 @@ public class CartDetail implements Serializable {
 	id = pId;
     }
 
-    public void setProductAdded(final Product pProductAdded) {
-	productAdded = pProductAdded;
+    public void setProduct(final Product pProduct) {
+	product = pProduct;
     }
 
-    public void setQtdProduct(final Integer pQtdProduct) {
-	qtdProduct = pQtdProduct;
+    public void setProductQuantity(final Integer pProductQuantity) {
+	productQuantity = pProductQuantity;
+    }
+
+    public BigDecimal getProductPrice() {
+	return productPrice;
+    }
+
+    public void setProductPrice(final BigDecimal pProductPrice) {
+	productPrice = pProductPrice;
     }
 }

@@ -6,7 +6,7 @@ import com.rafarha.ecommerce.controller.form.CartForm;
 import com.rafarha.ecommerce.controller.form.UpdateCartForm;
 import com.rafarha.ecommerce.domain.Cart;
 import com.rafarha.ecommerce.domain.CartDetail;
-import com.rafarha.ecommerce.exception.ProductQuantityUnavailableException;
+import com.rafarha.ecommerce.exception.ProductStockUnavailableException;
 import com.rafarha.ecommerce.service.ICartDetailService;
 import com.rafarha.ecommerce.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +30,12 @@ public class CartController {
 
     @PostMapping
     public ResponseEntity<CartDetailDto> addProductToCart(@RequestBody CartForm pCartForm,
-		    UriComponentsBuilder pUriComponentsBuilder) throws ProductQuantityUnavailableException {
+		    UriComponentsBuilder pUriComponentsBuilder) throws ProductStockUnavailableException {
 	final CartDetail cartDetail;
 	try {
 	    cartDetail = cartDetailService.insertProductInCart(CartForm.converter(pCartForm));
-	} catch (ProductQuantityUnavailableException pE) {
-	    throw new ProductQuantityUnavailableException(pE.getMessage());
+	} catch (ProductStockUnavailableException pE) {
+	    throw new ProductStockUnavailableException(pE.getMessage());
 	}
 	URI uri = pUriComponentsBuilder.path(URI_NAME + "/{id}").buildAndExpand(cartDetail.getCart().getId()).toUri();
 	return ResponseEntity.created(uri).body(new CartDetailDto(cartDetail));

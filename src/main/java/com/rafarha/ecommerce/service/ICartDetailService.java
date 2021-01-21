@@ -1,7 +1,7 @@
 package com.rafarha.ecommerce.service;
 
 import com.rafarha.ecommerce.domain.CartDetail;
-import com.rafarha.ecommerce.exception.ProductQuantityUnavailableException;
+import com.rafarha.ecommerce.exception.ProductStockUnavailableException;
 
 public interface ICartDetailService {
 
@@ -9,7 +9,7 @@ public interface ICartDetailService {
 
     //    public List<CartDetail> searchPurchaseByIdCart(Long pId);
 
-    CartDetail insertProductInCart(CartDetail pCartDetail) throws ProductQuantityUnavailableException;
+    CartDetail insertProductInCart(CartDetail pCartDetail) throws ProductStockUnavailableException;
 
     CartDetail updateProductQuantityOnCart(CartDetail pCartDetail);
 

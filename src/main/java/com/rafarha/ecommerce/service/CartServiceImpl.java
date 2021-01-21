@@ -19,7 +19,7 @@ public class CartServiceImpl implements ICartService {
 
     @Override public Cart createNewCart(Cart pCart) {
 	Cart cart = new Cart();
-	cart.setDhCartCreated(LocalDateTime.now());
+	cart.setDhCreation(LocalDateTime.now());
 	cart.setStatusCart(EnumStatusCart.IN_PROGRESS);
 	return cartRepository.save(cart);
     }

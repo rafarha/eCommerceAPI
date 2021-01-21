@@ -18,7 +18,7 @@ public class CartDto {
 
     public CartDto(Cart pCart) {
 	idCart = pCart.getId();
-	dhCartCreated = pCart.getDhCartCreated();
+	dhCartCreated = pCart.getDhCreation();
 	productsInCartList = CartDetailDto.converter(pCart.getCartDetailList());
 	statusCart = pCart.getStatusCart();
     }
