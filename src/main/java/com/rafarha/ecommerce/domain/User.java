@@ -11,31 +11,39 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "seq_user", allocationSize = 1)
-    private Integer id;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     private UserCategory userCategory;
 
     private String userName;
 
-    public Integer getId() {
-	return id;
+    public User(final UserCategory pUserCategory, final String pUserName) {
+	userCategory = pUserCategory;
+	userName = pUserName;
     }
 
-    public void setId(final Integer pId) {
-	id = pId;
+    public User() {
+    }
+
+    public Long getId() {
+	return id;
     }
 
     public UserCategory getUserCategory() {
 	return userCategory;
     }
 
-    public void setUserCategory(final UserCategory pUserCategory) {
-	userCategory = pUserCategory;
-    }
-
     public String getUserName() {
 	return userName;
+    }
+
+    public void setId(final Long pId) {
+	id = pId;
+    }
+
+    public void setUserCategory(final UserCategory pUserCategory) {
+	userCategory = pUserCategory;
     }
 
     public void setUserName(final String pUserName) {
