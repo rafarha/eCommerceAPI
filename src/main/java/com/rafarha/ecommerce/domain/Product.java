@@ -28,16 +28,22 @@ public class Product implements Serializable {
     private Integer productStock;
 
     public Product(final String pDescription, final String pProductName, final BigDecimal pProductPrice,
-		    final Integer pProductStock, final User pProductOwner, final ProductCategory pProductCategory) {
+		    final Integer pProductStock, final User pProductOwner, final ProductCategory pProductCategory,
+		    final Long pId) {
 	description = pDescription;
 	productName = pProductName;
 	productPrice = pProductPrice;
 	productStock = pProductStock;
 	productOwner = pProductOwner;
 	productCategory = pProductCategory;
+	id = pId;
     }
 
     public Product() {
+    }
+
+    public Product(final Long pProductId) {
+	this.id = pProductId;
     }
 
     public String getDescription() {

@@ -22,28 +22,31 @@ public class ProductForm {
 
     private User productOwner;
 
-    @NotNull
     private BigDecimal productPrice;
 
     @NotNull
     private Integer productStock;
 
+    private Long id;
+
     public ProductForm(final String pProductName, final BigDecimal pProductPrice, String pProductDescription,
-		    Integer pProductStock, ProductCategory pProductCategory, User pProductOwner) {
+		    Integer pProductStock, ProductCategory pProductCategory, User pProductOwner, Long pId) {
 	productName = pProductName;
 	productPrice = pProductPrice;
 	productDescription = pProductDescription;
 	productStock = pProductStock;
 	productCategory = pProductCategory;
 	productOwner = pProductOwner;
+	id =pId;
     }
+
 
     public ProductForm() {
     }
 
     public static Product converter(ProductForm pProductForm) {
 	return new Product(pProductForm.getProductDescription(), pProductForm.getProductName(), pProductForm.getProductPrice(),
-			pProductForm.getProductStock(), pProductForm.getProductOwner(), pProductForm.getProductCategory());
+			pProductForm.getProductStock(), pProductForm.getProductOwner(), pProductForm.getProductCategory(), pProductForm.getId());
     }
 
     public ProductCategory getProductCategory() {
@@ -68,5 +71,9 @@ public class ProductForm {
 
     public Integer getProductStock() {
 	return productStock;
+    }
+
+    public Long getId() {
+	return id;
     }
 }

@@ -1,5 +1,6 @@
 package com.rafarha.ecommerce.config;
 
+import com.rafarha.ecommerce.exception.ProductNotFoundInStockException;
 import com.rafarha.ecommerce.exception.ProductStockUnavailableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -30,8 +31,15 @@ public class ErrorHandler {
 	return errorFormDtos;
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ProductStockUnavailableException.class)
     public ErrorFormDto handler(ProductStockUnavailableException pE) {
 	return new ErrorFormDto(null, pE.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ProductNotFoundInStockException.class)
+    public ErrorFormDto handler(ProductNotFoundInStockException pE) {
+	return new ErrorFormDto(pE.getFieldName(), pE.getMessage());
     }
 }

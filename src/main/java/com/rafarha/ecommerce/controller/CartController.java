@@ -2,10 +2,11 @@ package com.rafarha.ecommerce.controller;
 
 import com.rafarha.ecommerce.controller.dto.CartDetailDto;
 import com.rafarha.ecommerce.controller.dto.CartDto;
-import com.rafarha.ecommerce.controller.form.CartForm;
+import com.rafarha.ecommerce.controller.form.CartDetailForm;
 import com.rafarha.ecommerce.controller.form.UpdateCartForm;
 import com.rafarha.ecommerce.domain.Cart;
 import com.rafarha.ecommerce.domain.CartDetail;
+import com.rafarha.ecommerce.exception.ProductNotFoundInStockException;
 import com.rafarha.ecommerce.exception.ProductStockUnavailableException;
 import com.rafarha.ecommerce.service.ICartDetailService;
 import com.rafarha.ecommerce.service.ICartService;
@@ -29,16 +30,19 @@ public class CartController {
     @Autowired ICartService cartService;
 
     @PostMapping
-    public ResponseEntity<CartDetailDto> addProductToCart(@RequestBody CartForm pCartForm,
-		    UriComponentsBuilder pUriComponentsBuilder) throws ProductStockUnavailableException {
-	final CartDetail cartDetail;
+    public ResponseEntity<CartDto> addProductToCart(@RequestBody CartDetailForm pCartDetailForm,
+		    UriComponentsBuilder pUriComponentsBuilder)
+		    throws ProductStockUnavailableException, ProductNotFoundInStockException {
+	Cart cart;
 	try {
-	    cartDetail = cartDetailService.insertProductInCart(CartForm.converter(pCartForm));
+	    cart = cartService.insertProductInCart(CartDetailForm.converter(pCartDetailForm));
 	} catch (ProductStockUnavailableException pE) {
 	    throw new ProductStockUnavailableException(pE.getMessage());
+	} catch (ProductNotFoundInStockException pE) {
+	    throw new ProductNotFoundInStockException(pE.getMessage(), pE.getFieldName());
 	}
-	URI uri = pUriComponentsBuilder.path(URI_NAME + "/{id}").buildAndExpand(cartDetail.getCart().getId()).toUri();
-	return ResponseEntity.created(uri).body(new CartDetailDto(cartDetail));
+	URI uri = pUriComponentsBuilder.path(URI_NAME + "/{id}").buildAndExpand(cart.getId()).toUri();
+	return ResponseEntity.created(uri).body(new CartDto(cart));
     }
 
     @GetMapping

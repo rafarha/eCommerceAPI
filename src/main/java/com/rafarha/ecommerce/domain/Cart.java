@@ -6,14 +6,17 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "TB_CART")
 public class Cart implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
-    private List<CartDetail> cartDetailList;
+    private Set<CartDetail> cartDetailList = new HashSet<>();
+
+    private BigDecimal cartValue;
 
     private LocalDateTime dhCreation;
 
@@ -28,15 +31,32 @@ public class Cart implements Serializable {
     @OneToOne
     private User user;
 
-    private BigDecimal cartValue;
+    public Cart(final Long pId, final User pUser, final Set<CartDetail> pCartDetailList) {
+	id = pId;
+	user = pUser;
+	cartDetailList = pCartDetailList;
+    }
 
     public Cart() {
 	dhCreation = LocalDateTime.now();
 	statusCart = EnumStatusCart.IN_PROGRESS;
     }
 
-    public List<CartDetail> getCartDetailList() {
+    public Cart(final Long pCartId) {
+	id = pCartId;
+    }
+
+    public void addCartDetail(CartDetail pCartDetail) {
+	pCartDetail.setCart(this);
+	cartDetailList.add(pCartDetail);
+    }
+
+    public Set<CartDetail> getCartDetailList() {
 	return cartDetailList;
+    }
+
+    public BigDecimal getCartValue() {
+	return cartValue;
     }
 
     public LocalDateTime getDhCreation() {
@@ -51,8 +71,16 @@ public class Cart implements Serializable {
 	return statusCart;
     }
 
-    public void setCartDetailList(final List<CartDetail> pCartDetailList) {
+    public User getUser() {
+	return user;
+    }
+
+    public void setCartDetailList(final Set<CartDetail> pCartDetailList) {
 	cartDetailList = pCartDetailList;
+    }
+
+    public void setCartValue(final BigDecimal pCartValue) {
+	cartValue = pCartValue;
     }
 
     public void setDhCreation(final LocalDateTime pDhCreation) {
@@ -67,19 +95,7 @@ public class Cart implements Serializable {
 	statusCart = pStatusCart;
     }
 
-    public User getUser() {
-	return user;
-    }
-
     public void setUser(final User pUser) {
 	user = pUser;
-    }
-
-    public BigDecimal getCartValue() {
-	return cartValue;
-    }
-
-    public void setCartValue(final BigDecimal pCartValue) {
-	cartValue = pCartValue;
     }
 }

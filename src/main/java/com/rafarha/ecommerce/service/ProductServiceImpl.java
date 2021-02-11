@@ -55,4 +55,14 @@ public class ProductServiceImpl implements IProductService {
 	product.setProductPrice(pProduct.getProductPrice());
 	return product;
     }
+
+    @Transactional
+    @Override
+    public void updateProductStock(final Integer pProductQuantity, final Product pProduct) {
+	Product product = pProduct;
+	if (product != null) {
+	    product = searchProductById(pProduct.getId());
+	}
+	product.setProductStock(Math.subtractExact(product.getProductStock(), pProductQuantity));
+    }
 }

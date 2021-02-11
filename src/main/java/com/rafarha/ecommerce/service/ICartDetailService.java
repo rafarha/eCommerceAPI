@@ -11,6 +11,10 @@ public interface ICartDetailService {
 
     CartDetail insertProductInCart(CartDetail pCartDetail) throws ProductStockUnavailableException;
 
+    CartDetail searchCartDetailByProductAndCartId(Long pProductId, Long pCartId);
+
+    void updateProductQuantity(CartDetail pCartDetail);
+
     CartDetail updateProductQuantityOnCart(CartDetail pCartDetail);
 
 }

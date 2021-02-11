@@ -1,10 +1,6 @@
 package com.rafarha.ecommerce.service;
 
-import com.rafarha.ecommerce.config.MessageBundle;
-import com.rafarha.ecommerce.constants.EnumStatusCart;
-import com.rafarha.ecommerce.domain.Cart;
 import com.rafarha.ecommerce.domain.CartDetail;
-import com.rafarha.ecommerce.domain.Product;
 import com.rafarha.ecommerce.exception.ProductStockUnavailableException;
 import com.rafarha.ecommerce.repository.ICartDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,24 +26,39 @@ public class CartDetailServiceImpl implements ICartDetailService {
 
     @Override public CartDetail insertProductInCart(CartDetail pCartDetail) throws ProductStockUnavailableException {
 
-	final Product product = productService.searchProductByName(pCartDetail.getProduct().getProductName());
-	if (product == null) {
-	    return null;
-	}
-	if (product.getProductStock() < pCartDetail.getProductQuantity()) {
-	    throw new ProductStockUnavailableException(MessageBundle.bindMessage("product.quantity_unavaiable"));
-	}
-	Cart cartInprogress = cartService.findCartByStatus(EnumStatusCart.IN_PROGRESS);
-	if (cartInprogress == null) {
-	    cartInprogress = cartService.createNewCart(cartInprogress);
-	}
-	pCartDetail.setProduct(product);
-	pCartDetail.setCart(cartInprogress);
-	final CartDetail cartDetail = cartDetailRepository.save(pCartDetail);
-	if (cartDetail != null) {
-	    //TODO subtrair a quantidade de produto no stock
-	}
-	return cartDetail;
+	//	final Product product = productService.searchProductById(pCartDetail.getProduct().getId());
+	//	if (product == null) {
+	//	    return null;
+	//	}
+	//	if (product.getProductStock() < pCartDetail.getProductQuantity()) {
+	//	    throw new ProductStockUnavailableException(MessageBundle.bindMessage("product.quantity_unavaiable"));
+	//	}
+	//	Cart cart = hasCartInprogress(pCartDetail);
+	//	if (cart == null) {
+	//	    cart = cartService.createNewCart(cart);
+	//	}
+	//	pCartDetail.setProduct(product);
+	//	pCartDetail.setCart(cart);
+	//	pCartDetail.setProductPrice(product.getProductPrice());
+	//	cart.setCartValue(cart.getCartValue().add(pCartDetail.getProductPrice().multiply(
+	//			BigDecimal.valueOf(pCartDetail.getProductQuantity()))));
+	//
+	//	final CartDetail cartDetail = cartDetailRepository.save(pCartDetail);
+	//	if (cartDetail != null) {
+	//	    //TODO subtrair a quantidade de produto no stock
+	//	    cart = cartService.findCartById(cart.getId());
+	//	}
+	//	//Atualizar Valor Carrinho
+
+	return null;
+    }
+
+    @Override public CartDetail searchCartDetailByProductAndCartId(final Long pProductId, final Long pCartId) {
+	return cartDetailRepository.findCartDetailByProductIdAndCartId(pProductId, pCartId);
+    }
+
+    @Override public void updateProductQuantity(final CartDetail pCartDetail) {
+	cartDetailRepository.updateProductQuantity(pCartDetail.getProductQuantity(), pCartDetail.getId());
     }
 
     @Transactional
@@ -60,5 +71,4 @@ public class CartDetailServiceImpl implements ICartDetailService {
 	cartDetail.setProductQuantity(pCartDetail.getProductQuantity());
 	return cartDetail;
     }
-
 }

@@ -11,13 +11,20 @@ public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "seq_product_category", allocationSize = 1)
-    private Integer id;
+    private Long id;
+
+    public ProductCategory() {
+    }
+
+    public ProductCategory(final String pCategoryName) {
+	categoryName = pCategoryName;
+    }
 
     public String getCategoryName() {
 	return categoryName;
     }
 
-    public Integer getId() {
+    public Long getId() {
 	return id;
     }
 
@@ -25,7 +32,7 @@ public class ProductCategory {
 	categoryName = pCategoryName;
     }
 
-    public void setId(final Integer pId) {
+    public void setId(final Long pId) {
 	id = pId;
     }
 }

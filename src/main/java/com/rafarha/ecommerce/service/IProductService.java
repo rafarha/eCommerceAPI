@@ -18,4 +18,5 @@ public interface IProductService {
 
     public Product searchProductByName(String pName);
 
-    }
+    void updateProductStock(Integer pProductQuantity, final Product pProduct);
+}

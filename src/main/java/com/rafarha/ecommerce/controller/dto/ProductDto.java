@@ -8,38 +8,59 @@ import java.util.stream.Collectors;
 
 public class ProductDto {
 
-    private String description;
-
     private Long id;
 
-    private String name;
+    private ProductCategoryDto productCategory;
 
-    private BigDecimal price;
+    private String productDescription;
+
+    private String productName;
+
+    private UserDto productOwner;
+
+    private BigDecimal productPrice;
+
+    private Integer productStock;
 
     public ProductDto(Product pProduct) {
-	this.name = pProduct.getProductName();
-	this.price = pProduct.getProductPrice();
-	this.description = pProduct.getDescription();
+	this.productName = pProduct.getProductName();
+	this.productStock = pProduct.getProductStock();
+	this.productDescription = pProduct.getDescription();
 	this.id = pProduct.getId();
+	this.productPrice = pProduct.getProductPrice();
+	this.productOwner = new UserDto(pProduct.getProductOwner());
+	this.productCategory = new ProductCategoryDto(pProduct.getProductCategory());
     }
 
     public static List<ProductDto> converter(List<Product> pProductList) {
 	return pProductList.stream().map(ProductDto::new).collect(Collectors.toList());
     }
 
-    public String getDescription() {
-	return description;
-    }
-
     public Long getId() {
 	return id;
     }
 
-    public String getName() {
-	return name;
+    public ProductCategoryDto getProductCategory() {
+	return productCategory;
     }
 
-    public BigDecimal getPrice() {
-	return price;
+    public String getProductDescription() {
+	return productDescription;
+    }
+
+    public String getProductName() {
+	return productName;
+    }
+
+    public UserDto getProductOwner() {
+	return productOwner;
+    }
+
+    public BigDecimal getProductPrice() {
+	return productPrice;
+    }
+
+    public Integer getProductStock() {
+	return productStock;
     }
 }

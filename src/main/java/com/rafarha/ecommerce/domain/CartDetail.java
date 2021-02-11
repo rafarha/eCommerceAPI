@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "TB_CART_DETAIL")
+@Table(name = "TB_CART_DETAIL", uniqueConstraints = @UniqueConstraint(columnNames = { "product_id", "cart_id" }, name = "tb_cart_detail_uk"))
 public class CartDetail implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -20,9 +20,9 @@ public class CartDetail implements Serializable {
     @OneToOne
     private Product product;
 
-    private Integer productQuantity;
-
     private BigDecimal productPrice;
+
+    private Integer productQuantity;
 
     public CartDetail(Product pProduct, Integer pProductQuantity) {
 	this.product = pProduct;
@@ -33,6 +33,12 @@ public class CartDetail implements Serializable {
 	this.product = pProduct;
 	this.productQuantity = pProductQuantity;
 	this.id = pCartDetailId;
+	this.cart = pCart;
+    }
+
+    public CartDetail(Product pProduct, Integer pProductQuantity, Cart pCart) {
+	this.product = pProduct;
+	this.productQuantity = pProductQuantity;
 	this.cart = pCart;
     }
 
@@ -51,6 +57,10 @@ public class CartDetail implements Serializable {
 	return product;
     }
 
+    public BigDecimal getProductPrice() {
+	return productPrice;
+    }
+
     public Integer getProductQuantity() {
 	return productQuantity;
     }
@@ -67,15 +77,11 @@ public class CartDetail implements Serializable {
 	product = pProduct;
     }
 
-    public void setProductQuantity(final Integer pProductQuantity) {
-	productQuantity = pProductQuantity;
-    }
-
-    public BigDecimal getProductPrice() {
-	return productPrice;
-    }
-
     public void setProductPrice(final BigDecimal pProductPrice) {
 	productPrice = pProductPrice;
+    }
+
+    public void setProductQuantity(final Integer pProductQuantity) {
+	productQuantity = pProductQuantity;
     }
 }
